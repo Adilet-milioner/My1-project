@@ -1,52 +1,23 @@
+import { Routes, Route } from "react-router-dom";
+import Layout from "@/layouts/Layout";
 import Create from "@/pages/Create";
 import Current from "@/pages/Current";
 import Eror from "@/pages/Eror";
 import Main from "@/pages/Main";
 import Togoout from "@/pages/Togoout";
-import { Route, Routes } from "react-router-dom";
-
-
 
 const AppRoutes = () => {
-      return (
+  return (
     <Routes>
-      <Route path="/" element={<Togoout />} />  {/* Биринчи барак */}
-      <Route path="/cars" element={<Main />} /> {/* Экинчи барак */}
-      <Route path="/create" element={<Create />} />
-      <Route path="/edit" element={<Current />} />
-      <Route path="/erer" element={<Eror />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Togoout />} /> 
+        <Route path="cars" element={<Main />} />
+        <Route path="create" element={<Create />} />
+        <Route path="edit/:id" element={<Current />} />
+        <Route path="erer" element={<Eror />} />
+      </Route>
     </Routes>
   );
 };
+
 export default AppRoutes;
-//   const navigationRoutes = [
-//     { path: "/", element: <Togoout /> },
-//     { path: "/cars", element: <Main /> },
-//     { path: "/eror-page", element: <Change /> },
-//     { path: "/create", element: <Create /> },
-//     { path: "/edit", element: <Current /> },
-//   ];
-//   return (
-//     <Routes>
-//       {" "}
-//       {navigationRoutes.map((router) => (
-//         <Route key={router.path} path={router.path} element={router.element} />
-//       ))}{" "}
-//     </Routes>
-//   );
-
-//   return (
-//     <Router>
-//       <Routes>
-//         {/* Киргенде автоматтык түрдө регистрация бетине жөнөтөт */}
-//         <Route path="/" element={<Navigate to="/register" />} />
-//         <Route path="/register" element={<Togoout />} />
-//         <Route path="/main" element={<Main />} />
-//         <Route path="/login" element={<Change />} />
-//         <Route path="/login" element={<Current />} />
-//         <Route path="/login" element={<Create/>} />
-//       </Routes>
-//     </Router>
-//   );
-
-

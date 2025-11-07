@@ -3,6 +3,8 @@ import React, {
   useRef,
   useEffect,
   useCallback,
+  MouseEvent,
+  TouchEvent,
 } from "react";
 
 // 1. Define TypeScript Props Interface
@@ -20,17 +22,16 @@ interface CustomModalProps {
  * Это имитирует поведение MUI Backdrop.
  */
 const useOutsideClick = <T extends HTMLElement>(
-  ref: React.RefObject<T> | React.MutableRefObject<T | null>,
+  ref: React.RefObject<T | null>,
   handler: () => void
 ) => {
   // useCallback используется для стабильной ссылки на функцию handler
   const stableHandler = useCallback(handler, [handler]);
 
   useEffect(() => {
-    const listener = (event: Event) => {
+    const listener = (event: MouseEvent | TouchEvent) => {
       // Если клик был внутри модального контента, ничего не делаем.
-      const target = event.target;
-      if (!ref.current || !(target instanceof Node) || ref.current.contains(target)) {
+      if (!ref.current || ref.current.contains(event.target as Node)) {
         return;
       }
       // Иначе вызываем обработчик закрытия.
@@ -38,13 +39,25 @@ const useOutsideClick = <T extends HTMLElement>(
     };
 
     // Добавляем слушатели для мыши и касаний
-    document.addEventListener("mousedown", listener);
-    document.addEventListener("touchstart", listener);
+    document.addEventListener(
+      "mousedown",
+      listener as unknown as EventListener
+    );
+    document.addEventListener(
+      "touchstart",
+      listener as unknown as EventListener
+    );
 
     return () => {
       // Очистка слушателей при размонтировании компонента
-      document.removeEventListener("mousedown", listener);
-      document.removeEventListener("touchstart", listener);
+      document.removeEventListener(
+        "mousedown",
+        listener as unknown as EventListener
+      );
+      document.removeEventListener(
+        "touchstart",
+        listener as unknown as EventListener
+      );
     };
   }, [ref, stableHandler]);
 };
