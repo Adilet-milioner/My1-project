@@ -1,10 +1,9 @@
-// Main.tsx
 import Tabl from "@/components/Table";
 import Sort from "../components/Sort";
 import Brends from "../components/Brends";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 import { useEffect, useMemo, useState } from "react";
-import {  deleteCar, Car } from "@/components/services/carApi";
+import { deleteCar, Car } from "@/components/services/carApi";
 import { RootState, AppDispatch } from "@/store";
 import useCarForm from "@/hooks/useCarsData";
 
@@ -12,30 +11,31 @@ const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const Main = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const cars: Car[] = useAppSelector(state => state.car.cars);
+  const cars: Car[] = useAppSelector((state) => state.car.cars);
 
-  const { formData, handleSortChange, resetSort } = useCarForm({ sortType: "no-sorting" });
+  const { formData, handleSortChange, resetSort } = useCarForm({
+    sortType: "no-sorting",
+  });
 
   const [brands, setBrands] = useState<string[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [resetTrigger, setResetTrigger] = useState(false);
 
-useEffect(() => {
-  if (cars.length > 0) {
-    const uniqueBrands = Array.from(
-      new Set(
-        cars.map(car => {
-          const brandName = car.model.split(" ")[0];
-          return brandName;
-        })
-      )
-    );
-    setBrands(uniqueBrands);
-  } else {
-    setBrands([]);
-  }
-}, [cars]);
-
+  useEffect(() => {
+    if (cars.length > 0) {
+      const uniqueBrands = Array.from(
+        new Set(
+          cars.map((car) => {
+            const brandName = car.model.split(" ")[0];
+            return brandName;
+          })
+        )
+      );
+      setBrands(uniqueBrands);
+    } else {
+      setBrands([]);
+    }
+  }, [cars]);
 
   const deleteCarHandler = (id: number) => {
     dispatch(deleteCar(id));
@@ -59,20 +59,27 @@ useEffect(() => {
     return carsCopy;
   }, [cars, formData.sortType]);
 
-const filteredCars = useMemo(() => {
-  if (selectedBrands.length === 0) return sortedCars;
-  return sortedCars.filter(car => {
-    const brandName = car.model.split(" ")[0];
-    return selectedBrands.includes(brandName);
-  });
-}, [sortedCars, selectedBrands]);
-
+  const filteredCars = useMemo(() => {
+    if (selectedBrands.length === 0) return sortedCars;
+    return sortedCars.filter((car) => {
+      const brandName = car.model.split(" ")[0];
+      return selectedBrands.includes(brandName);
+    });
+  }, [sortedCars, selectedBrands]);
 
   return (
     <div>
       <Brends brands={brands} onBrandChange={setSelectedBrands} />
-      <Sort sortType={formData.sortType} onSortChange={handleSortChange} resetTrigger={resetTrigger} />
-      <Tabl cars={filteredCars} onDelete={deleteCarHandler} onClearFilters={handleClearFilters} />
+      <Sort
+        sortType={formData.sortType}
+        onSortChange={handleSortChange}
+        resetTrigger={resetTrigger}
+      />
+      <Tabl
+        cars={filteredCars}
+        onDelete={deleteCarHandler}
+        onClearFilters={handleClearFilters}
+      />
     </div>
   );
 };

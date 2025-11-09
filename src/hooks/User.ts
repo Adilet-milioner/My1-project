@@ -1,4 +1,3 @@
-// src/hooks/useRegisterForm.ts
 import { useRegisterUserMutation } from "@/components/services/authApi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";

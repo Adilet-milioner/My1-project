@@ -89,14 +89,13 @@ const CustomModal: FC<CustomModalProps> = ({
         ref={contentRef}
         className="
           relative z-50
-          max-w-lg w-[90vw] md:w-full // Адаптивная ширина
-          bg-white // Фон
-          p-6 sm:p-8 // Отступы (padding)
-          rounded-xl // Закругленные углы (10px)
-           shadow-gray-900/20 // Тень (аналог 0 8px 32px rgba(0,0,0,0.18))
-          flex flex-col items-center justify-center // Центрирование содержимого
+          max-w-lg w-[90vw] md:w-full 
+          bg-white 
+          p-6 sm:p-8 
+          rounded-xl 
+           shadow-gray-900/20 
+          flex flex-col items-center justify-center 
           
-          // Анимация входа (имитация fadeIn: opacity 0, translateY(-6px) -> opacity 1, translateY(0))
           transition-all duration-300 ease-out 
           transform translate-y-0 opacity-100 animate-fade-in
         "

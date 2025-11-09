@@ -1,43 +1,45 @@
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import CustomModal from "./ui/modal/Modal";
 import { useState } from "react";
-import { Car } from "./services/carApi"; 
+import { Car } from "./services/carApi";
 import Delete from "./Delete";
 
 interface TablProps {
   cars: Car[];
   onDelete: (id: number) => void;
-  onClearFilters?: () => void; 
+  onClearFilters?: () => void;
 }
 
-function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
-  
+function Tabl({ cars, onDelete, onClearFilters }: TablProps) {
   const [carIdToDelete, setCarIdToDelete] = useState<number | null>(null);
   const [modal, setModal] = useState(false);
 
   const navigate = useNavigate();
-
   const openModal = (id: number | null = null) => {
-    setCarIdToDelete(id); 
-    setModal((prev) => !prev);
+    setCarIdToDelete(id);
+    setModal(true); 
+  };
+
+  const closeModal = () => {
+    setCarIdToDelete(null); 
+    setModal(false); 
   };
 
   const handleDelete = () => {
     if (carIdToDelete !== null) {
       onDelete(carIdToDelete);
-      openModal(); 
+      closeModal(); 
     }
   };
-
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm m-6 border border-gray-100 mr-[200px] ml-[200px] ">
-      
       <div className="flex items-center justify-between p-4 pb-2 border-b">
         <div className="flex items-center space-x-4 text-sm text-gray-500">
-          <Button 
-            onClick={onClearFilters} 
-          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-black text-white hover:bg-gray-800 h-8 px-3 py-1">
+          <Button
+            onClick={onClearFilters}
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-black text-white hover:bg-gray-800 h-8 px-3 py-1"
+          >
             Clear All Filters
           </Button>
         </div>
@@ -51,7 +53,6 @@ function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
         </div>
       </div>
 
-      
       <div className="overflow-x-auto mt-4">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
@@ -74,11 +75,10 @@ function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
           <tbody className="bg-white divide-y divide-gray-200">
             {cars.map((car) => (
               <tr key={car.id} className="hover:bg-gray-50">
-                
                 <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
                   {car.id}
                 </td>
-              
+
                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">
                   {car.model}
                 </td>
@@ -92,13 +92,11 @@ function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
                   {car.country}
                 </td>
 
-          
                 <td className="px-4 py-2 whitespace-nowrap text-sm font-medium flex space-x-2">
                   <Button
-                    onClick={() => navigate(`/edit/${car.id}`)} 
+                    onClick={() => navigate(`/edit/${car.id}`)}
                     className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-gray-300 bg-white hover:bg-gray-100 h-8 w-8 p-0 text-blue-500"
                   >
-                  
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -114,10 +112,9 @@ function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
                     </svg>
                   </Button>
                   <Button
-                    onClick={() => openModal(car.id)} 
+                    onClick={() => openModal(car.id)}
                     className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-gray-300 bg-white hover:bg-gray-100 h-8 w-8 p-0 text-red-500"
                   >
-                    
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -141,10 +138,14 @@ function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
         </table>
       </div>
 
-        <CustomModal isVisible={modal} handleVisible={() => openModal()}>
+      <CustomModal
+        isVisible={modal}
+        handleVisible={closeModal}
+      >
         <Delete
           onDelete={handleDelete}
-          id={carIdToDelete !== null ? carIdToDelete : 0} 
+          onCancel={closeModal} 
+          id={carIdToDelete !== null ? carIdToDelete : 0}
         />
       </CustomModal>
     </div>
