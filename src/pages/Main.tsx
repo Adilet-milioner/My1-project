@@ -1,5 +1,5 @@
 // Main.tsx
-import Tabl from "@/components/Tabl";
+import Tabl from "@/components/Table";
 import Sort from "../components/Sort";
 import Brends from "../components/Brends";
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
@@ -20,14 +20,11 @@ const Main = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [resetTrigger, setResetTrigger] = useState(false);
 
- // 🔹 Уникалдуу бренддерди чыгарып алуу (Main.tsx)
 useEffect(() => {
   if (cars.length > 0) {
-    // Мисалы, Toyota Camry, Toyota Prius -> Toyota
     const uniqueBrands = Array.from(
       new Set(
         cars.map(car => {
-          // Моделдин атынан биринчи сөздү алабыз (бренд)
           const brandName = car.model.split(" ")[0];
           return brandName;
         })
@@ -51,7 +48,6 @@ useEffect(() => {
     setTimeout(() => setResetTrigger(false), 100);
   };
 
-  // 🔹 Сорттоо
   const sortedCars = useMemo(() => {
     const carsCopy = [...cars];
     if (formData.sortType === "low-to-high") {
@@ -63,8 +59,6 @@ useEffect(() => {
     return carsCopy;
   }, [cars, formData.sortType]);
 
-  // 🔹 Фильтр
- // 🔹 Фильтр (Main.tsx)
 const filteredCars = useMemo(() => {
   if (selectedBrands.length === 0) return sortedCars;
   return sortedCars.filter(car => {

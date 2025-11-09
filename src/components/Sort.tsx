@@ -7,7 +7,7 @@ type SortType = 'no-sorting' | 'low-to-high' | 'high-to-low';
 interface SortProps {
   sortType: SortType;
   onSortChange: (type: SortType) => void;
-  resetTrigger: boolean; // бир жолу гана
+  resetTrigger: boolean; 
 }
 
 const Sort = ({ sortType, onSortChange, resetTrigger }: SortProps) => {
@@ -18,7 +18,6 @@ const Sort = ({ sortType, onSortChange, resetTrigger }: SortProps) => {
     { id: 'high-to-low', label: 'Price: High to Low' },
   ];
 
-  // resetTrigger боюнча useEffect
   useEffect(() => {
     if (resetTrigger) {
       onSortChange('no-sorting');

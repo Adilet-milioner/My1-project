@@ -8,7 +8,7 @@ import Delete from "./Delete";
 interface TablProps {
   cars: Car[];
   onDelete: (id: number) => void;
-  onClearFilters?: () => void; // кошуу керекers?: () => void; // кошуу керек
+  onClearFilters?: () => void; 
 }
 
 function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
@@ -36,7 +36,7 @@ function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
       <div className="flex items-center justify-between p-4 pb-2 border-b">
         <div className="flex items-center space-x-4 text-sm text-gray-500">
           <Button 
-            onClick={onClearFilters} // ушул функцияны props аркылуу алат
+            onClick={onClearFilters} 
           className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-black text-white hover:bg-gray-800 h-8 px-3 py-1">
             Clear All Filters
           </Button>
@@ -95,7 +95,7 @@ function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
           
                 <td className="px-4 py-2 whitespace-nowrap text-sm font-medium flex space-x-2">
                   <Button
-                    onClick={() => navigate(`/edit/${car.id}`)} // ID менен навигация кошулду
+                    onClick={() => navigate(`/edit/${car.id}`)} 
                     className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-gray-300 bg-white hover:bg-gray-100 h-8 w-8 p-0 text-blue-500"
                   >
                   

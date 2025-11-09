@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Layout from "@/layouts/Layout";
 import Create from "@/pages/Create";
 import Current from "@/pages/Current";
-import Eror from "@/pages/Eror";
+import Eror from "@/pages/Error";
 import Main from "@/pages/Main";
 import Togoout from "@/pages/Togoout";
 

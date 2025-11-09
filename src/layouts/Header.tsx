@@ -41,7 +41,7 @@ const Header = () => {
         {userName ? (
           <>
             <span className="font-medium text-lg text-gray-800">
-             {userName}
+              {userName}
             </span>
             <Button variant="outline" onClick={handleLogout}>
               Выйти

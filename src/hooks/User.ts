@@ -42,7 +42,7 @@ export function useRegisterForm() {
 
       localStorage.setItem("username", user.name || "");
 
-      navigate("/"); // Башкы бетке өтөт
+      navigate("/"); 
     } catch {
       setErrorMessage("Каттоо учурунда ката чыкты!");
       navigate("/error");

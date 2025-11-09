@@ -13,7 +13,6 @@ const Togoout = () => {
     password: "",
   });
 
-  // 🧠 Форманын өзгөрүүсүн көзөмөлдөө
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prev) => ({ ...prev, [id]: value }));

@@ -1,4 +1,4 @@
-// Brends.tsx
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@radix-ui/react-label";
 import { useState, useEffect } from "react";
@@ -11,7 +11,7 @@ interface BrendsProps {
 const Brends = ({ brands, onBrandChange }: BrendsProps) => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
 
-  // Эгер brands өзгөрсө, selectedBrands да жаңырт
+  
   useEffect(() => {
     setSelectedBrands(prev => prev.filter(b => brands.includes(b)));
   }, [brands]);
