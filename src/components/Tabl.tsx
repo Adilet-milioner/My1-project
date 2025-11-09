@@ -8,9 +8,10 @@ import Delete from "./Delete";
 interface TablProps {
   cars: Car[];
   onDelete: (id: number) => void;
+  onClearFilters?: () => void; // кошуу керекers?: () => void; // кошуу керек
 }
 
-function Tabl({ cars, onDelete }: TablProps) {
+function Tabl({ cars, onDelete,  onClearFilters}: TablProps) {
   
   const [carIdToDelete, setCarIdToDelete] = useState<number | null>(null);
   const [modal, setModal] = useState(false);
@@ -34,7 +35,9 @@ function Tabl({ cars, onDelete }: TablProps) {
       
       <div className="flex items-center justify-between p-4 pb-2 border-b">
         <div className="flex items-center space-x-4 text-sm text-gray-500">
-          <Button className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-black text-white hover:bg-gray-800 h-8 px-3 py-1">
+          <Button 
+            onClick={onClearFilters} // ушул функцияны props аркылуу алат
+          className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-black text-white hover:bg-gray-800 h-8 px-3 py-1">
             Clear All Filters
           </Button>
         </div>
@@ -80,7 +83,7 @@ function Tabl({ cars, onDelete }: TablProps) {
                   {car.model}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {car.price}
+                  ${car.price}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">
                   {car.year}

@@ -1,39 +1,57 @@
-
-
-import { Button } from "../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
+  const [userName, setUserName] = useState<string | null>(null);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const user = JSON.parse(storedUser);
+        setUserName(user.name || null);
+      } catch (e) {
+        console.error("❌ Ошибка при чтении user:", e);
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUserName(null);
+    navigate("/");
+  };
 
   return (
-    <header
-      className="flex items-center justify-between px-40 border rounded py-13"
-      style={{ height: "69px" }}
-    >
-      <div className="text-[20px] font-semibold">M Car</div>
+    <header className="flex items-center justify-between px-20 py-4 border-b shadow-sm bg-white">
+      <div
+        onClick={() => navigate("/")}
+        className="text-[22px] font-bold cursor-pointer text-black"
+      >
+        M Car
+      </div>
 
-      <div className="flex items-center space-x-3">
-        <Button
-          variant="outline"
-          className="shadow-md border-gray-300 px-4 py-2 text-sm"
-          onClick={() => navigate("/erer")}
-          >
-          Тестовая ошибка!
+      <div className="flex items-center gap-4">
+        <Button variant="outline" onClick={() => navigate("/error")}>
+          Тестовая ошибка
         </Button>
 
-        
-
-        <span className="font-medium text-lg">Вася Пупкин</span>
-
-        <Button
-          variant="outline"
-          className="px-4 py-2 bg-white hover:bg-gray-50 border-gray-200 text-sm"
-          onClick={() => navigate("/")}
-        >
-          Выйти
-        </Button>
+        {userName ? (
+          <>
+            <span className="font-medium text-lg text-gray-800">
+             {userName}
+            </span>
+            <Button variant="outline" onClick={handleLogout}>
+              Выйти
+            </Button>
+          </>
+        ) : (
+          <Button variant="outline" onClick={() => navigate("/register")}>
+            Выйти
+          </Button>
+        )}
       </div>
     </header>
   );

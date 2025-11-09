@@ -14,7 +14,7 @@ const AppRoutes = () => {
         <Route path="cars" element={<Main />} />
         <Route path="create" element={<Create />} />
         <Route path="edit/:id" element={<Current />} />
-        <Route path="erer" element={<Eror />} />
+        <Route path="*" element={<Eror />} />
       </Route>
     </Routes>
   );

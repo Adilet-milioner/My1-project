@@ -1,7 +1,5 @@
-
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { axiosBaseQuery } from "../utils/axiosBaseQuery";
-
 
 type RegistrationPayload = {
   email: string;
@@ -16,7 +14,7 @@ type RegistrationResponse = {
   token?: string;
 };
 
-const MOKKY_API_URL = "https://657fccc640a0bce8.mokky.dev";
+const MOKKY_API_URL = "https://657fccc640a0bce8.mokky.dev/users";
 
 export const authApi = createApi({
   reducerPath: "authApi",
@@ -25,13 +23,12 @@ export const authApi = createApi({
 
   endpoints: (builder) => ({
     registerUser: builder.mutation<RegistrationResponse, RegistrationPayload>({
-      query: (userData: RegistrationPayload) => ({
-        url: "register",
+      query: (userData) => ({
+        url: "", 
         method: "POST",
         data: userData,
       }),
     }),
-
   }),
 });
 

@@ -51,7 +51,7 @@ export const createCar = createAsyncThunk<Car, CreateCarBody>(
 export const updateCar = createAsyncThunk<Car, UpdateCarBody>( 
     "car/updateCar", 
     async (body) => {
-        const response = await axios.put(`${BASE_URL}/${body.id}`, body); 
+        const response = await axios.patch(`${BASE_URL}/${body.id}`, body); 
         return response.data as Car;
     }
 );

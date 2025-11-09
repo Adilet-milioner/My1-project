@@ -16,18 +16,25 @@ function Create() {
     price: "",
     year: "",
     country: "",
+    sortType: 'no-sorting',
   });
 
   const addCar = () => {
     
-    dispatch(createCar(formData));
+    const payload = {
+      model: formData.model ?? "",
+      price: formData.price ?? "",
+      year: formData.year ?? "",
+      country: formData.country ?? "",
+    };
+    dispatch(createCar(payload));
 
     
     navigate("/cars");
   };
 
   return (
-    <div className="min-h-[900px] bg-gray-50 flex flex-col ">
+    <div className="min-h-sm bg-gray-50 flex flex-col ">
       
 
       
@@ -88,7 +95,6 @@ function Create() {
                 id="year"
                 type="text"
                 name="year"
-                placeholder="2019"
                 value={formData.year}
                 onChange={handleChange}
                 className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
@@ -107,7 +113,6 @@ function Create() {
                 id="country"
                 type="text"
                 name="country"
-                placeholder="Германия"
                 value={formData.country}
                 onChange={handleChange}
                 className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"

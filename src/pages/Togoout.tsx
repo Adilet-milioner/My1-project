@@ -1,40 +1,72 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useRegisterUserMutation } from "@/components/services/authApi";
 
 const Togoout = () => {
   const navigate = useNavigate();
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
 
-  const handleRegister = () => {
-    navigate("/cars"); 
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  // 🧠 Форманын өзгөрүүсүн көзөмөлдөө
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleRegister = async () => {
+    const { name, email, password } = formData;
+
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      navigate("/error");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      navigate("/error");
+      return;
+    }
+
+    try {
+      const response = await registerUser(formData).unwrap();
+
+      localStorage.setItem("user", JSON.stringify(response));
+
+      navigate("/cars");
+    } catch (err) {
+      navigate("/error");
+      return err;
+    }
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div
-        className="max-w-[340px] h-auto p-6 border rounded-lg shadow-lg bg-white"
-        style={{ minHeight: "134px", width: "340px" }}
-      >
+    <div className="min-h-sm bg-gray-50 flex flex-col items-center justify-center p-20 pb-43">
+      <div className="max-w-[340px] w-full h-auto p-6 border rounded-lg shadow-lg bg-white">
         <h2 className="text-xl font-semibold mb-1 text-gray-800">
           Регистрация
         </h2>
-        <p className="text-sm text-gray-500 mb-6">
-          Заполните форму для создания нового аккаунта
-        </p>
 
-        <div className="space-y-4">
+        <div className="space-y-4 mt-4">
           <div>
             <label
-              htmlFor="full-name"
+              htmlFor="name"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Полное имя:
+              Имя:
             </label>
             <input
-              id="full-name"
+              id="name"
               type="text"
-              placeholder="Вася Пупкин"
-              className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Введите имя"
+              className="border border-gray-300 w-full rounded-md px-3 py-2 focus:ring-2 focus:ring-black outline-none"
             />
           </div>
 
@@ -48,8 +80,10 @@ const Togoout = () => {
             <input
               id="email"
               type="email"
-              placeholder="newuser@mokky.test"
-              className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Введите почту"
+              className="border border-gray-300 w-full rounded-md px-3 py-2 focus:ring-2 focus:ring-black outline-none"
             />
           </div>
 
@@ -63,8 +97,10 @@ const Togoout = () => {
             <input
               id="password"
               type="password"
-              placeholder="••••••"
-              className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Введите пароль"
+              className="border border-gray-300 w-full rounded-md px-3 py-2 focus:ring-2 focus:ring-black outline-none"
             />
           </div>
         </div>
@@ -72,9 +108,10 @@ const Togoout = () => {
         <div className="mt-6">
           <Button
             onClick={handleRegister}
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-black text-white hover:bg-gray-800 h-10 w-full px-4 py-2"
+            disabled={isLoading}
+            className="w-full bg-black text-white hover:bg-gray-800"
           >
-            Зарегистрироваться
+            {isLoading ? "Регистрация..." : "Зарегистрироваться"}
           </Button>
         </div>
       </div>
@@ -83,5 +120,3 @@ const Togoout = () => {
 };
 
 export default Togoout;
-
-
