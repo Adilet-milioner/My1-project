@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store/index.ts";
-import { AuthProvider } from "./store/AuthContext.tsx";
+import { AuthProvider } from "./store/AuthProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
