@@ -21,7 +21,7 @@ const Togoout = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // форма сабаттык жүктөлүшүн токтотот
+    e.preventDefault(); 
 
     const { name, email, password } = formData;
 
@@ -39,7 +39,7 @@ const Togoout = () => {
     try {
       const response = await registerUser(formData).unwrap();
       localStorage.setItem("user", JSON.stringify(response));
-      setUser(response); // Header дароо жаңыланат
+      setUser(response); 
       navigate("/cars");
     } catch {
       navigate("/error");
