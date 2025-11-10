@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { deleteCar, Car } from "@/components/services/carApi";
 import { RootState, AppDispatch } from "@/store";
 import useCarForm from "@/hooks/useCarsData";
+import { getCars } from "@/components/services/carApi"; 
 
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -21,21 +22,29 @@ const Main = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [resetTrigger, setResetTrigger] = useState(false);
 
-  useEffect(() => {
-    if (cars.length > 0) {
-      const uniqueBrands = Array.from(
+
+useEffect(() => {
+  dispatch(getCars());
+}, [dispatch]);
+
+
+ useEffect(() => {
+  if (cars.length > 0) {
+    setBrands(prevBrands => {
+      const newBrands = Array.from(
         new Set(
-          cars.map((car) => {
-            const brandName = car.model.split(" ")[0];
-            return brandName;
-          })
+          cars.map(car => car.model.split(" ")[0])
         )
       );
-      setBrands(uniqueBrands);
-    } else {
-      setBrands([]);
-    }
-  }, [cars]);
+
+      const isSame = newBrands.length === prevBrands.length &&
+                     newBrands.every(b => prevBrands.includes(b));
+
+      return isSame ? prevBrands : newBrands;
+    });
+  }
+}, [cars]);
+
 
   const deleteCarHandler = (id: number) => {
     dispatch(deleteCar(id));
