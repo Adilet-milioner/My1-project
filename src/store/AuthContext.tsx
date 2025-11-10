@@ -22,7 +22,6 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
-  // Колдонуучуну localStorage'ден окуйт (эгер бар болсо)
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
@@ -41,7 +40,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// 🔥 Hook: контекстти колдонуу
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {

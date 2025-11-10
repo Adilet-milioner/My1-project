@@ -31,7 +31,7 @@ const Togoout = () => {
     try {
       const response = await registerUser(formData).unwrap();
       localStorage.setItem("user", JSON.stringify(response));
-      setUser(response); // 🔥 Контекстти жаңыртабыз
+      setUser(response); 
       navigate("/cars");
     } catch (err) {
       navigate("/error");
