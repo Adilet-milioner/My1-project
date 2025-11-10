@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useRegisterUserMutation } from "@/components/services/authApi";
+import { useAuth } from "@/store/AuthContext";
 
 const Togoout = () => {
   const navigate = useNavigate();
   const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const { setUser } = useAuth();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,27 +28,20 @@ const Togoout = () => {
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      navigate("/error");
-      return;
-    }
-
     try {
       const response = await registerUser(formData).unwrap();
-
       localStorage.setItem("user", JSON.stringify(response));
-
+      setUser(response); // 🔥 Контекстти жаңыртабыз
       navigate("/cars");
     } catch (err) {
       navigate("/error");
-      return err;
+      return err
     }
   };
 
   return (
-    <div className="min-h-sm bg-gray-50 flex flex-col items-center justify-center p-20 pb-43">
-      <div className="max-w-[340px] w-full h-auto p-6 border rounded-lg shadow-lg bg-white">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-20">
+      <div className="max-w-[340px] w-full p-6 border rounded-lg shadow-lg bg-white">
         <h2 className="text-xl font-semibold mb-1 text-gray-800">
           Регистрация
         </h2>

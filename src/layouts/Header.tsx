@@ -1,26 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/store/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [userName, setUserName] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      try {
-        const user = JSON.parse(storedUser);
-        setUserName(user.name || null);
-      } catch (e) {
-        console.error("❌ Ошибка при чтении user:", e);
-      }
-    }
-  }, []);
+  const { user, setUser } = useAuth();
 
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setUserName(null);
+    setUser(null);
     navigate("/");
   };
 
@@ -38,18 +26,18 @@ const Header = () => {
           Тестовая ошибка
         </Button>
 
-        {userName ? (
+        {user ? (
           <>
             <span className="font-medium text-lg text-gray-800">
-              {userName}
+              {user.name}
             </span>
             <Button variant="outline" onClick={handleLogout}>
               Выйти
             </Button>
           </>
         ) : (
-          <Button variant="outline" onClick={() => navigate("/register")}>
-            Выйти
+          <Button variant="outline" onClick={() => navigate("/")}>
+            Регистрация
           </Button>
         )}
       </div>
